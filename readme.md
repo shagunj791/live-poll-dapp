@@ -102,15 +102,15 @@ https://stellar.expert/explorer/testnet/tx/15317260a33775cedbb65bcb5435e846d5e87
 
 ### 1. Wallet Connected (Freighter) + Poll Initialized + TX Hash
 
-![Freighter](./screenshots/freighter.png)
+![Freighter](.frontend/public/screenshots/freighter.png)
 
 ### 2. Multi-Wallet Support (Wallet Kit)
 
-![Wallet Kit](./screenshots/wallet-kit.png)
+![Wallet Kit](.frontend/public/screenshots/wallet-kit.png)
 
 ### 3. Initial State (Connect Wallet Screen)
 
-![Connect](./screenshots/connect-screen.png)
+![Connect](.frontend/public/screenshots/connect-screen.png)
 
 
 ---
