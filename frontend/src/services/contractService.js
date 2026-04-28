@@ -96,6 +96,8 @@ import {
   )
   
   const send = await server.sendTransaction(txSigned)
+  console.log("TX HASH:", send.hash)
+  return send.hash
   
   if (send.status === SorobanRpc.Api.SendTransactionStatus.ERROR) {
   throw new Error('Transaction failed')
@@ -154,7 +156,7 @@ import {
   
   export async function initializePoll(question, options, sourceAddress) {
   try {
-  return await runContractTx(
+    const hash = await runContractTx(
   'initialize_poll',
   [
   nativeToScVal(question, { type: 'string' }),
@@ -165,6 +167,7 @@ import {
   ],
   sourceAddress
   )
+  return hash
   } catch (e) {
   throw createContractError(e)
   }
@@ -172,7 +175,7 @@ import {
   
   export async function vote(index, sourceAddress) {
   try {
-  return await runContractTx(
+  const hash = await runContractTx(
   'vote',
   [
   nativeToScVal(index, { type: 'u32' }),
@@ -180,6 +183,7 @@ import {
   ],
   sourceAddress
   )
+  return hash
   } catch (e) {
   throw createContractError(e)
   }

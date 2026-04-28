@@ -90,11 +90,11 @@ function PollPanel({ address, canSignTransactions }) {
     setTxMessage('Initializing poll...')
 
     try {
-      await initializePoll(question, parsedOptions, address)
+      const txHash = await initializePoll(question, parsedOptions, address)
 
       setInitialized(true)
       setTxStatus(TX_STATUS.SUCCESS)
-      setTxMessage('Poll initialized successfully.')
+      setTxMessage(`Poll initialized. TX: ${txHash}`)
 
       await refreshPollState()
     } catch (error) {
@@ -119,10 +119,10 @@ function PollPanel({ address, canSignTransactions }) {
     setTxMessage('Submitting vote...')
 
     try {
-      await vote(index, address)
+      const txHash = await vote(index, address)
 
       setTxStatus(TX_STATUS.SUCCESS)
-      setTxMessage('Vote submitted.')
+      setTxMessage(`Vote submitted. TX: ${txHash}`)
       setVoted(true)
 
       await refreshPollState()
@@ -165,7 +165,7 @@ function PollPanel({ address, canSignTransactions }) {
       <p>
         Transaction status: {txStatus === TX_STATUS.IDLE ? 'idle' : txStatus}
       </p>
-      
+
       {txMessage && <p>{txMessage}</p>}
     </section>
   )
