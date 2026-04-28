@@ -106,7 +106,7 @@ https://stellar.expert/explorer/testnet/tx/<your-transaction-hash>
 ## Live Demo
 
 ```
-https://<your-vercel-app>.vercel.app
+[https://<your-vercel-app>.vercel.app](https://live-poll-dapp.vercel.app/)
 ```
 
 ---
