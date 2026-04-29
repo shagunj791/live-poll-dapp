@@ -83,41 +83,35 @@ npm run dev
 
 * Network: Stellar Testnet
 
-* Contract Address:
-
-```
-CA3XTXBT653YKAYKEQEWBHO5JMBDNCTMCBCOWXWFSOS4JBBPSYWSSXWT
-```
-
----
-
-## Transaction Proof
-
-Example contract interaction (vote / initialize):
-
-```
-https://stellar.expert/explorer/testnet/tx/<your-transaction-hash>
-```
-
-(Replace with your actual transaction link)
-
----
-
 ## Live Demo
+https://live-poll-dapp.vercel.app
 
-```
-https://live-poll-dapp.vercel.app/
-```
+## Contract Address
+CBQUA67LVRIKB74W4MIEG7UE2MXSZS6CAV26DSVZQMBKWAP4IQGH2UTU
 
----
+## Sample Transaction
+Initialize Poll TX:
+15317260a33775cedbb65bcb5435e846d5e87488984261554ba8d893d2cacd01
+
+Explorer:
+https://stellar.expert/explorer/testnet/tx/15317260a33775cedbb65bcb5435e846d5e87488984261554ba8d893d2cacd01
 
 ## Screenshots
 
-* Wallet connection options
-* Poll initialization UI
-* Voting and live results
+## Screenshots
 
-(Add screenshots here)
+### 1. Wallet Connected (Freighter) + Poll Initialized + TX Hash
+
+![Freighter](frontend/public/screenshots/freighter.png)
+
+### 2. Multi-Wallet Support (Wallet Kit)
+
+![Wallet Kit](frontend/public/screenshots/wallet-kit.png)
+
+### 3. Initial State (Connect Wallet Screen)
+
+![Connect](frontend/public/screenshots/connect-screen.png)
+
 
 ---
 
