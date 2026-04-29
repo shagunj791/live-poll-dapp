@@ -29,6 +29,13 @@ import {
   NOT_INITIALIZED: 'NOT_INITIALIZED',
   UNKNOWN: 'UNKNOWN',
   }
+
+  let pollCache = {
+    results: null,
+    voted: {},
+    votedTimestamp: {},
+    lastFetch: 0,
+  }
   
   // ---------------- ERROR HANDLING ----------------
   
@@ -51,6 +58,8 @@ import {
   type: CONTRACT_ERRORS.UNKNOWN,
   message: error?.message || 'Unknown error',
   }
+  
+
   }
   
   function createContractError(error) {
@@ -80,7 +89,7 @@ import {
   const sim = await server.simulateTransaction(tx)
   
   if (SorobanRpc.Api.isSimulationError(sim)) {
-  throw new Error(sim.error)
+    throw createContractError('Transaction failed')
   }
   
   const assembled = SorobanRpc.assembleTransaction(tx, sim).build()
@@ -97,22 +106,21 @@ import {
   
   const send = await server.sendTransaction(txSigned)
   console.log("TX HASH:", send.hash)
-  return send.hash
   
   if (send.status === SorobanRpc.Api.SendTransactionStatus.ERROR) {
-  throw new Error('Transaction failed')
+    throw createContractError('Transaction failed')
   }
   
   // wait for confirmation
   for (let i = 0; i < 20; i++) {
-  const result = await server.getTransaction(send.hash)
+    const result = await server.getTransaction(send.hash)
   
-  if (result.status === SorobanRpc.Api.GetTransactionStatus.SUCCESS) {
-    return result
+    if (result.status === SorobanRpc.Api.GetTransactionStatus.SUCCESS) {
+      return send.hash
   }
   
   if (result.status === SorobanRpc.Api.GetTransactionStatus.FAILED) {
-    throw new Error('Transaction failed')
+    throw createContractError('Transaction failed')
   }
   
   await new Promise((r) => setTimeout(r, 1000))
@@ -126,6 +134,9 @@ import {
   
   async function read(functionName, args = []) {
   try {
+
+    console.log("BLOCKCHAIN CALL:", functionName)
+
   const dummy = new Account(
   'GBAGY4BVPHAYWPY7JUVNVNDYZEAYDSJFRBYGXB2XW5M64WAK7CATXPIO',
   '0'
@@ -142,7 +153,7 @@ import {
   const sim = await server.simulateTransaction(tx)
   
   if (SorobanRpc.Api.isSimulationError(sim)) {
-    throw new Error(sim.error)
+    throw createContractError('Transaction failed')
   }
   
   return scValToNative(sim.result.retval)
@@ -167,6 +178,10 @@ import {
   ],
   sourceAddress
   )
+
+  pollCache.results = null
+  pollCache.voted = {}
+
   return hash
   } catch (e) {
   throw createContractError(e)
@@ -183,6 +198,10 @@ import {
   ],
   sourceAddress
   )
+
+  pollCache.results = null
+  pollCache.voted = {}
+
   return hash
   } catch (e) {
   throw createContractError(e)
@@ -190,13 +209,40 @@ import {
   }
   
   export async function getResults() {
-  const res = await read('get_results')
-  return Array.isArray(res) ? res.map(Number) : []
-  }
+    const now = Date.now()
   
+    // cache valid for 5 sec
+    if (pollCache.results && now - pollCache.lastFetch < 5000) {
+      return pollCache.results
+    }
+  
+    const res = await read('get_results')
+    const formatted = Array.isArray(res) ? res.map(Number) : []
+  
+    pollCache.results = formatted
+    pollCache.lastFetch = now
+  
+    return formatted
+  }
+
   export async function hasVoted(address) {
-  const res = await read('has_voted', [
-  Address.fromString(address).toScVal(),
-  ])
-  return Boolean(res)
+    const now = Date.now()
+  
+    if (
+      pollCache.voted[address] !== undefined &&
+      now - pollCache.lastFetch < 5000
+    ) {
+      return pollCache.voted[address]
+    }
+  
+    const res = await read('has_voted', [
+      Address.fromString(address).toScVal(),
+    ])
+  
+    const voted = Boolean(res)
+  
+    pollCache.voted[address] = voted
+    pollCache.lastFetch = now   // ✅ SAME timestamp
+  
+    return voted
   }

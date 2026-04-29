@@ -12,6 +12,9 @@ import VotingPanel from './VotingPanel'
 import ResultsPanel from './ResultsPanel'
 
 function PollPanel({ address, canSignTransactions }) {
+
+
+
   const [question, setQuestion] = useState('Ship this release?')
   const [optionsInput, setOptionsInput] = useState('Yes,No')
   const [results, setResults] = useState([])
@@ -54,7 +57,8 @@ function PollPanel({ address, canSignTransactions }) {
       setTxStatus(TX_STATUS.IDLE)
       setTxMessage('')
     } catch (error) {
-      if (error.type === CONTRACT_ERRORS.NOT_INITIALIZED) {
+      console.log("REFRESH ERROR:", error)
+      if (error?.type === CONTRACT_ERRORS.NOT_INITIALIZED) {
         setResults([])
         setVoted(false)
         setInitialized(false)
@@ -66,14 +70,11 @@ function PollPanel({ address, canSignTransactions }) {
       setLoadingPoll(false)
     }
   }, [address])
-
+  
   useEffect(() => {
     if (!address) return
-
+  
     refreshPollState()
-
-    const interval = setInterval(refreshPollState, 5000)
-    return () => clearInterval(interval)
   }, [address, refreshPollState])
 
   const handleInitializePoll = async () => {
@@ -96,9 +97,9 @@ function PollPanel({ address, canSignTransactions }) {
       setTxStatus(TX_STATUS.SUCCESS)
       setTxMessage(`Poll initialized. TX: ${txHash}`)
 
-      setTimeout(async () => {
-        await refreshPollState()
-      }, 500)
+      setTimeout(() => {
+        refreshPollState()
+      }, 1500)
     } catch (error) {
       if (error.message.includes('#1')) {
         setInitialized(true)
@@ -127,17 +128,17 @@ function PollPanel({ address, canSignTransactions }) {
       setTxMessage(`Vote submitted. TX: ${txHash}`)
       setVoted(true)
 
-      setTimeout(async () => {
-        await refreshPollState()
-      }, 500)
+      setTimeout(() => {
+        refreshPollState()
+      }, 1500)
     } catch (error) {
-      if (error.type === CONTRACT_ERRORS.ALREADY_VOTED) {
+      if (error?.type === CONTRACT_ERRORS.ALREADY_VOTED) {
         setVoted(true)
         setTxStatus(TX_STATUS.SUCCESS)
         setTxMessage('Already voted.')
       } else {
         setTxStatus(TX_STATUS.ERROR)
-        setTxMessage(error.message)
+        setTxMessage(error?.message || 'Vote failed')
       }
     } finally {
       setSubmitting(false)
