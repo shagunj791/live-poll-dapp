@@ -28,8 +28,8 @@ function PollSetup({
           placeholder="Option A, Option B"
         />
 
-        <button onClick={onInitialize} disabled={isDisabled}>
-          {initialized ? 'Poll Initialized' : 'Initialize Poll'}
+        <button onClick={onInitialize} disabled={submitting}>
+          {submitting ? 'Processing...' : 'Initialize Poll'}
         </button>
       </div>
     </section>

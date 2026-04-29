@@ -96,7 +96,9 @@ function PollPanel({ address, canSignTransactions }) {
       setTxStatus(TX_STATUS.SUCCESS)
       setTxMessage(`Poll initialized. TX: ${txHash}`)
 
-      await refreshPollState()
+      setTimeout(async () => {
+        await refreshPollState()
+      }, 500)
     } catch (error) {
       if (error.message.includes('#1')) {
         setInitialized(true)
@@ -125,7 +127,9 @@ function PollPanel({ address, canSignTransactions }) {
       setTxMessage(`Vote submitted. TX: ${txHash}`)
       setVoted(true)
 
-      await refreshPollState()
+      setTimeout(async () => {
+        await refreshPollState()
+      }, 500)
     } catch (error) {
       if (error.type === CONTRACT_ERRORS.ALREADY_VOTED) {
         setVoted(true)
@@ -159,6 +163,8 @@ function PollPanel({ address, canSignTransactions }) {
         canSignTransactions={canSignTransactions}
         onVote={handleVote}
       />
+      
+      {loadingPoll && <p>Refreshing results...</p>}
 
       <ResultsPanel results={results} options={options} loading={loadingPoll} />
 

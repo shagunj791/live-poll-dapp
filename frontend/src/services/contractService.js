@@ -12,7 +12,7 @@ import {
   
   const NETWORK_PASSPHRASE = Networks.TESTNET
   const RPC_URL = 'https://soroban-testnet.stellar.org:443'
-  const CONTRACT_ID = 'CBQUA67LVRIKB74W4MIEG7UE2MXSZS6CAV26DSVZQMBKWAP4IQGH2UTU'
+  const CONTRACT_ID = 'CAQOXMWXRVFEOCJNVBCEZQTS446DXAEIRS6QVH3RKCR5SA5PSX2C5IKI'
   
   const server = new SorobanRpc.Server(RPC_URL)
   const contract = new Contract(CONTRACT_ID)

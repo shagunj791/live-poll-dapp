@@ -22,7 +22,11 @@ function VotingPanel({
             onClick={() => onVote(index)}
             disabled={isDisabled}
           >
-            {voted ? 'Voted' : `Vote: ${option}`}
+            {submitting
+              ? 'Submitting...'
+              : voted
+              ? 'Voted'
+              : `Vote: ${option}`}
           </button>
         ))}
       </div>
