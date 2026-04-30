@@ -21,9 +21,23 @@ https://live-poll-dapp.vercel.app
 
 ##  Demo Video
 
- Add your 1-minute demo video link here
+This video demonstrates:
+- Wallet connection
+- Poll initialization
+- Voting functionality
+- Live results update
+
+[ Watch Demo Video](.frontend/public/screenshots/demo.mp4)
 
 ---
+
+##  Test Execution Video
+
+This video demonstrates:
+- Smart contract test execution
+- Validation of poll logic
+
+[ Watch Tests Video](.frontend/public/screenshots/tests.mp4)
 
 ##  Features
 
