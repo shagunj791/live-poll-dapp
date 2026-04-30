@@ -37,7 +37,7 @@ This video demonstrates:
 - Smart contract test execution
 - Validation of poll logic
 
-[ Watch Tests Video](.frontend/public/screenshots/tests.mp4)
+[ Watch Tests Video](https://github.com/shagunj791/live-poll-dapp/raw/refs/heads/main/frontend/public/screenshots/tests.mp4)
 
 ##  Features
 
