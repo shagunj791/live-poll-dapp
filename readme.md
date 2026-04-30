@@ -27,7 +27,7 @@ This video demonstrates:
 - Voting functionality
 - Live results update
 
-[ Watch Demo Video](.frontend/public/screenshots/demo.mp4)
+[ Watch Demo Video](https://github.com/shagunj791/live-poll-dapp/raw/refs/heads/main/frontend/public/screenshots/demo.mp4)
 
 ---
 
